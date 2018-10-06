@@ -1,3 +1,8 @@
+######################
+# the learning lab
+# original code from https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/fashion_mnist.ipynb
+######################
+
 import tensorflow as tf
 import numpy as np
 
