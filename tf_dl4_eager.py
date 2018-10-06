@@ -1,3 +1,7 @@
+######################
+# the learning lab
+# the original code from Columbia University course: COMS 4995 Applied Deep Learning
+######################
 
 ##############################################################################
 ############################### What’s a graph? ##############################
