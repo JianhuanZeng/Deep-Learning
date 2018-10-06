@@ -1,6 +1,6 @@
 """
-# In this demo, we're going to demonstrate a simple multi-class regression model, which is a simple linear classification model.
-# Reference: https://en.wikipedia.org/wiki/Logistic_regression
+# the learning lab
+# the original code from Columbia University course: ECBM E4040 Neural Networks and Deep Learning (Prof.Zoran Kostić) 
 """
 import tensorflow as tf
 import numpy as np
