@@ -1,0 +1,61 @@
+######################
+# the learning lab
+# original code from https://github.com/dennybritz/rnn-tutorial-rnnlm/blob/master/RNNLM.ipynb
+######################
+
+import pandas
+import itertools
+import operator
+import numpy as np
+import nltk
+import sys
+from datetime import datetime
+import matplotlib.pyplot as plt
+#! %matplotlib inline
+from rnn_theano import RNNTheano, gradient_check_theano
+from utils import load_model_parameters_theano, save_model_parameters_theano
+
+################################# Input and Set ################################
+vocabulary_size = 300
+grad_check_vocab_size = 5
+filename = 'try_text.csv'
+
+################################# Training our Network/load parameters #################################
+np.random.seed(10)
+model = RNNTheano(grad_check_vocab_size, 10)
+gradient_check_theano(model, [0,1,2,3], [1,2,3,4])
+
+np.random.seed(10)
+model = RNNTheano(vocabulary_size)
+# % timeit model.sgd_step(X_train[10], y_train[10], 0.005)
+
+model = RNNTheano(vocabulary_size, hidden_dim=50)
+load_model_parameters_theano('./data/trained-model-theano.npz', model)
+
+
+############################## main ##############################
+def generate_sentence(model):
+    # We start the sentence with the start token
+    new_sentence = [word_to_index[sentence_start_token]]
+    # Repeat until we get an end token
+    while not new_sentence[-1] == word_to_index[sentence_end_token]:
+        next_word_probs = model.forward_propagation(new_sentence)
+        sampled_word = word_to_index[unknown_token]
+        # We don't want to sample unknown words
+        while sampled_word == word_to_index[unknown_token]:
+            samples = np.random.multinomial(1, next_word_probs[-1])
+            sampled_word = np.argmax(samples)
+        new_sentence.append(sampled_word)
+    sentence_str = [index_to_word[x] for x in new_sentence[1:-1]]
+    return sentence_str
+
+
+num_sentences = 10
+senten_min_length = 7
+
+for i in range(num_sentences):
+    sent = []
+    # We want long sentences, not sentences with one or two words
+    while len(sent) < senten_min_length:
+        sent = generate_sentence(model)
+    print(" ".join(sent))
